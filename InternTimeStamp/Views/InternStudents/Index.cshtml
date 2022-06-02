@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Internship Students";
+    string[] TableHeaders = new string[] { "No.", "Name", "University", "Delete/Edit" };
+}
+
+<style>
+    .modal-backdrop {
+        display: none;
+    }
+</style>
+
+<h1>
+    @ViewData["Title"]
+    <button type="button" name="add" id="addButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+        Add
+    </button>
+</h1>
+
+

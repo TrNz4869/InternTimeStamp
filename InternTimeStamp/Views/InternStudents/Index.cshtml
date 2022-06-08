@@ -20,28 +20,94 @@
                 <h5 class="modal-title" id="staticBackdropLabel">Add Internship Student</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="InternStudents" method="post">
-                <br><label for="code">Name</label><br>
-                <input type="text" name="Name" class="form-control" placeholder="Enter Student Name"><br>
-                <label for="University_Code">University</label><br>
-                <select class="form-select" id="universFrom">
-                    @foreach (var item in Model.UniversityLists)
-                    {
-                        <option value="@item.Code">@item.UniversityName</option>
-                    }
-                </select>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" onclick="addIntern()" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>
+            <div class="container">
+                <div class="row">
+                    <div class='col-sm-12'>
+                        <form action="InternStudents" method="post">
+                            <label class="mt-4 mb-2" for="code">Name</label>
+                            <input type="text" name="Name" class="form-control" placeholder="Enter Student Name">
+                            <label class="mt-4 mb-2" for="University_Code">University</label>
+                            <select class="form-select" id="universFrom">
+                                @if (Model.UniversityLists.Count == 0)
+                                {
+                                    <option>No Data</option>
+                                }
+                                else
+                                {
+                                    @foreach (var item in Model.UniversityLists)
+                                    {
+                                        <option value="@item.Code">@item.UniversityName</option>
+                                    }
+                                }
+                            </select>
+                            <div class="modal-footer mt-4">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" onclick="addIntern()" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- editModal -->
+<div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Edit Student</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class='col-sm-12'>
+                        <form action="InternStudents" method="post">
+                            <label class="mt-4 mb-2" for="Name">Name</label>
+                            <input type="text" name="Name" class="form-control" placeholder="Enter Student name">
+                            <label class="mt-4 mb-2" for="University_Code">University</label>
+                            <select class="form-select" id="universFrom">
+
+                                @foreach (var item in Model.UniversityLists)
+                                {
+                                    <option value="@item.Code">@item.UniversityName</option>
+                                }
+                            </select>
+                            <div class="modal-footer mt-4">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <input type="submit" value="Submit" class="btn btn-primary">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- deleteModal -->
+<div class="modal fade" tabindex="-1" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Student</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Do you want to delete this student?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" onclick="deleteIntern()" data-bs-dismiss="modal">Delete</button>
+            </div>
         </div>
     </div>
 </div>
 
 <!-- table -->
 @{
-    if (Model == null)
+    if (Model.InternStudentLists.Count() == 0)
     {
         <h3 class="text-danger text-center mt-4">-No data-</h3>
     }
@@ -69,7 +135,7 @@
                             <td>@Data.Name</td>
                             <td>@Data.University</td>
                             <td class="text-center">
-                                <button type="button" name="edit" id="editButton" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+                                <button type="button" name="edit" id="editButton" class="btn btn-danger" id="btndelete" onclick="setDelete('@Data.Name')" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
                             </td>
                         </tr>
@@ -80,3 +146,78 @@
         </table>
     }
 }
+
+<script type="text/javascript">
+
+    var deleteData = ''
+
+    function setDelete(data) {
+        deleteData = data;
+    }
+
+    function deleteIntern() {
+        $.ajax({
+            type: 'GET',
+            url: 'InternStudents/Delete/' + deleteData,
+            success: function(data) {
+                alert(data);
+                location.reload(true);
+            },
+            error: function(error) {
+                alert("Error: " + error);
+            }
+        })
+    }
+
+    //var editData = ''
+
+    //function setEdit(data) {
+    //    debugger;
+    //    $.ajax({
+    //        type: 'GET',
+    //        url: 'InternStudents/get/' + data,
+    //        success: function(data) {
+    //            console.log(data)
+    //            $('#editCode').val(data.name);
+    //            $('#editUniversity').val(data.universityName);
+    //        },
+    //        error: function(error) {
+    //            alert("Error: " + error);
+    //        }
+    //    })
+    //    editData = data;
+    //}
+
+    //function editClick() {
+    //    console.log("click1");
+    //    var code = $('#editCode').val();
+    //    var universities = $('#editUniversity').val();
+    //    var editObject = {
+    //        code: code,
+    //        universityName: universityName
+    //    };
+    //    console.log("click2");
+    //    $.post('universities/Edit',
+    //        editObject,
+    //        function(data, status) {
+    //            alert(data);
+    //        });
+
+        //$.ajax({
+        //type: 'post',
+        //url: 'university/edit,
+
+        //success: function (data) {
+        //    location.reload(true);
+        //},
+        //error: function (error) {
+        //    alert("error: " + error);
+        //}
+
+    }
+
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+
+</script>

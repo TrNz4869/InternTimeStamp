@@ -83,7 +83,7 @@ namespace InternTimeStamp.Controllers
         }
 
 
-        // get id
+        // getid
         [HttpGet]
         [Route("Universities/Get/{code}")]
         public IActionResult GetByCode(string code)

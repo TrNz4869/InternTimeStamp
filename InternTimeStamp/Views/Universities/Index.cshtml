@@ -20,16 +20,22 @@
                 <h5 class="modal-title" id="staticBackdropLabel">Add University</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="Universities" method="post" id="uniForm">
-                <br><label for="code">Code</label>
-                <input type="text" id="addCode" class="form-control mb-3" placeholder="Enter University Code">
-                <label for="university">University</label>
-                <input type="text" id="addUniversity" class="form-control" placeholder="Enter University Name"><br>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <input type="submit" value="Submit" class="btn btn-primary">
+            <div class="container">
+                <div class="row">
+                    <div class='col-sm-12'>
+                        <form action="Universities" method="post" id="uniForm">
+                            <label class="mt-4 mb-2" for="code">Code</label>
+                            <input type="text" id="addCode" class="form-control mb-3" placeholder="Enter University Code">
+                            <label class="mt-4 mb-2" for="university">University</label>
+                            <input type="text" id="addUniversity" class="form-control" placeholder="Enter University Name">
+                            <div class="modal-footer mt-4">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <input type="submit" value="Submit" class="btn btn-primary">
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
@@ -42,16 +48,22 @@
                 <h5 class="modal-title" id="staticBackdropLabel">Edit University</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="Universities" method="post">
-                <br><label for="code">Code</label>
-                <input type="text" id="editCode" name="Code" class="form-control" placeholder="Enter University Code"><br>
-                <label for="university">University</label>
-                <input type="text" id="editUniversity" name="Universities" class="form-control" placeholder="Enter University Name"><br>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button onclick="editClick()" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>
+            <div class="container">
+                <div class="row">
+                    <div class='col-sm-12'>
+                        <form action="Universities" method="post">
+                            <label class="mt-4 mb-2" for="code">Code</label>
+                            <input type="text" id="editCode" name="Code" class="form-control" placeholder="Enter University Code">
+                            <label class="mt-4 mb-2" for="university">University</label>
+                            <input type="text" id="editUniversity" name="Universities" class="form-control" placeholder="Enter University Name">
+                            <div class="modal-footer mt-4">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button onclick="editClick()" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
@@ -77,7 +89,7 @@
 
 <!-- table -->
 @{
-    if (Model == null || Model.Count == 0)
+    if (Model.Count == 0)
     {
         <h3 class="text-danger text-center mt-4">-No data-</h3>
     }
@@ -117,75 +129,75 @@
 
 }
 <script type="text/javascript">
-var deleteData = ''
+    var deleteData = ''
 
-function setDelete(data) {
-    deleteData = data;
-}
+    function setDelete(data) {
+        deleteData = data;
+    }
 
-function deleteUniversity() {
-    $.ajax({
-        type: 'GET',
-        url: 'Universities/Delete/' + deleteData,
-        success: function(data) {
-            alert(data);
-            location.reload(true);
-        },
-        error: function(error) {
-            alert("Error: " + error);
-        }
-    })
-}
+    function deleteUniversity() {
+        $.ajax({
+            type: 'GET',
+            url: 'Universities/Delete/' + deleteData,
+            success: function(data) {
+                alert(data);
+                location.reload(true);
+            },
+            error: function(error) {
+                alert("Error: " + error);
+            }
+        })
+    }
 
-var editData = ''
+    var editData = ''
 
-function setEdit(data) {
-    debugger;
-    $.ajax({
-        type: 'GET',
-        url: 'Universities/get/' + data,
-        success: function(data) {
-            console.log(data)
-            $('#editCode').val(data.code);
-            $('#editUniversity').val(data.universityName);
-        },
-        error: function(error) {
-            alert("Error: " + error);
-        }
-    })
-    editData = data;
-}
+    function setEdit(data) {
+        debugger;
+        $.ajax({
+            type: 'GET',
+            url: 'Universities/get/' + data,
+            success: function(data) {
+                console.log(data)
+                $('#editCode').val(data.code);
+                $('#editUniversity').val(data.universityName);
+            },
+            error: function(error) {
+                alert("Error: " + error);
+            }
+        })
+        editData = data;
+    }
 
-function editClick() {
-    console.log("click1");
-    var code = $('#editCode').val();
-    var universities = $('#editUniversity').val();
-    var editObject = {
-        code: code,
-        universityName: universityName
-    };
-    console.log("click2");
-    $.post('universities/Edit',
-        editObject,
-        function(data, status) {
-            alert(data);
-        });
+    function editClick() {
+        console.log("click1");
+        var code = $('#editCode').val();
+        var universities = $('#editUniversity').val();
+        var editObject = {
+            code: code,
+            universityName: universityName
+        };
+        console.log("click2");
+        $.post('universities/Edit',
+            editObject,
+            function(data, status) {
+                alert(data);
+            });
 
-    //$.ajax({
-    //type: 'post',
-    //url: 'university/edit,
+        //$.ajax({
+        //type: 'post',
+        //url: 'university/edit,
 
-    //success: function (data) {
-    //    location.reload(true);
-    //},
-    //error: function (error) {
-    //    alert("error: " + error);
-    //}
+        //success: function (data) {
+        //    location.reload(true);
+        //},
+        //error: function (error) {
+        //    alert("error: " + error);
+        //}
 
-}
+    }
 
-if (window.history.replaceState) {
-    window.history.replaceState(null, null, window.location.href);
-}
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
 
 </script>

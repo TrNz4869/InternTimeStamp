@@ -28,11 +28,11 @@ namespace InternTimeStamp.Controllers
             connection.Open();
             //connection.Query<TimeStamp>("SELECT [Name],[Time] FROM [TimeStamp] ORDER BY [LastModifyDate] ASC").ToList();
 
-            SqlCommand queryTimeCmd = new SqlCommand("SELECT [Name],[Time] FROM [TimeStamp] ORDER BY [LastModifyDate] ASC", connection);
+            SqlCommand queryTimeCmd = new SqlCommand("SELECT [Name], [CheckinTime], [CheckoutTime], [Remark] FROM [TimeStamp] ORDER BY [LastModifyDate] ASC", connection);
             dr = queryTimeCmd.ExecuteReader();
             while (dr.Read())
             {
-                viewModel.TimeStampLists.Add(new TimeStamp() { Name = dr.GetString(0), Time = dr.GetDateTime(1) });
+                viewModel.TimeStampLists.Add(new TimeStamp() { Name = dr.GetString(0), CheckinTime = dr.GetDateTime(1), CheckoutTime = dr.GetDateTime(2), Remark = dr.GetString(3) });
             }
             connection.Close();
 

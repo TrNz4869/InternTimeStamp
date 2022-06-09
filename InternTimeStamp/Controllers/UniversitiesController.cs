@@ -45,7 +45,7 @@ namespace InternTimeStamp.Controllers
                 {
                     Code = university.Code,
                     UniversityName = university.UniversityName,
-                    LastModifyDate = university.LastModifyDate
+                    LastModifyDate = university.LastModifyDate.AddHours(+7)
                 });
 
             listUniversity = connection.Query<University>("SELECT [Code],[UniversityName] FROM [University] ORDER BY [LastModifyDate] ASC").ToList();

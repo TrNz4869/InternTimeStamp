@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Timestamps";
-    string[] TableHeaders = new string[] { "No.", "Name", "Time" };
+    string[] TableHeaders = new string[] { "No.", "Name", "Check-in Time", "Check-out Time", "Remark" };
 }
 
 <h1>
@@ -39,20 +39,7 @@
                                 }
                             </select>
                             <label class="mt-4 mb-2" for="code">Time*</label>
-                            <div class="form-group">
-                                <div class='input-group date' id='datetimepicker1'>
-                                    <input type='text' class="form-control" />
-                                    <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
-                                </div>
-                            </div>
-                            <script type="text/javascript">
-                                $(function () {
-                                    $('#datetimepicker1').datetimepicker();
-                                });
-                            </script>
-                            @*<input type="text" name="Name" class="form-control" textmode="DateTime">*@
+                            <input type="text" id="addCode" class="form-control" name="" placeholder="Enter University Code" required>
                             <div class="modal-footer mt-4">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <button type="button" onclick="addIntern()" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>
@@ -93,7 +80,9 @@
                         <tr>
                             <td class="text-center">@i</td>
                             <td class="text-center">@Data.Name</td>
-                            <td class="text-center">@Data.Time</td>
+                            <td class="text-center">@Data.CheckinTime</td>
+                            <td class="text-center">@Data.CheckoutTime</td>
+                            <td class="text-center">@Data.Remark</td>
                         </tr>
                         i++;
                     }

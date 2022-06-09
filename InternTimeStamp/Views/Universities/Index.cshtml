@@ -24,10 +24,10 @@
                 <div class="row">
                     <div class='col-sm-12'>
                         <form action="Universities" method="post" id="uniForm">
-                            <label class="mt-4 mb-2" for="code">Code</label>
-                            <input type="text" id="addCode" class="form-control mb-3" placeholder="Enter University Code">
-                            <label class="mt-4 mb-2" for="university">University</label>
-                            <input type="text" id="addUniversity" class="form-control" placeholder="Enter University Name">
+                            <label class="mt-4 mb-2" for="code">Code*</label>
+                            <input type="text" id="addCode" class="form-control mb-3" placeholder="Enter University Code" required>
+                            <label class="mt-4 mb-2" for="university">University*</label>
+                            <input type="text" id="addUniversity" class="form-control" placeholder="Enter University Name" required>
                             <div class="modal-footer mt-4">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <input type="submit" value="Submit" class="btn btn-primary">
@@ -52,10 +52,10 @@
                 <div class="row">
                     <div class='col-sm-12'>
                         <form action="Universities" method="post">
-                            <label class="mt-4 mb-2" for="code">Code</label>
-                            <input type="text" id="editCode" name="Code" class="form-control" placeholder="Enter University Code">
-                            <label class="mt-4 mb-2" for="university">University</label>
-                            <input type="text" id="editUniversity" name="Universities" class="form-control" placeholder="Enter University Name">
+                            <label class="mt-4 mb-2" for="code">Code*</label>
+                            <input type="text" id="editCode" name="Code" class="form-control" placeholder="Enter University Code" required>
+                            <label class="mt-4 mb-2" for="university">University*</p></label>
+                            <input type="text" id="editUniversity" name="Universities" class="form-control" placeholder="Enter University Name" required>
                             <div class="modal-footer mt-4">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <button onclick="editClick()" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>

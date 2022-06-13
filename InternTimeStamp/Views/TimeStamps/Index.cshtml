@@ -38,8 +38,13 @@
                                     }
                                 }
                             </select>
-                            <label class="mt-4 mb-2" for="code">Time*</label>
-                            <input type="text" id="addCode" class="form-control" name="" placeholder="Enter University Code" required>
+                            <label class="mt-4 mb-2" for="code">Check-in Time*</label>
+                            <input type="text" id="addCheckinTime" class="form-control" name="" placeholder="Enter Check-in Time" required>
+                            <label class="mt-4 mb-2" for="code">Check-out Time*</label>
+                            <input type="text" id="addCheckoutTime" class="form-control" name="" placeholder="Enter Check-out Time" required>
+                            <label class="mt-4 mb-2" for="code">Remark (Max 250 Character)</label>
+                            <textarea id="field" class="form-control" onkeyup="countChar(this)"></textarea>
+                            <div id="charNum"></div>
                             <div class="modal-footer mt-4">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <button type="button" onclick="addIntern()" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>
@@ -97,5 +102,14 @@
     if (window.history.replaceState) {
         window.history.replaceState(null, null, window.location.href);
     }
+
+    function countChar(val) {
+    var len = val.value.length;
+    if (len >= 250) {
+        val.value = val.value.substring(0, 250);
+    } else {
+        $('#charNum').text(len+'/250');
+    }
+};
 
 </script>

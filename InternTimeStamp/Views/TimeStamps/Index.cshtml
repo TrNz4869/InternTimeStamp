@@ -105,7 +105,7 @@
 
     function countChar(val) {
     var len = val.value.length;
-    if (len >= 250) {
+    if (len > 250) {
         val.value = val.value.substring(0, 250);
     } else {
         $('#charNum').text(len+'/250');

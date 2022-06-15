@@ -51,5 +51,45 @@ namespace InternTimeStamp.Controllers
 
             return View(viewModel);
         }
+
+        // add
+        [HttpPost]
+        public ActionResult Index(TimeStamp timestamp)
+        {
+            var listTimeStamp = new List<TimeStamp>();
+            string connectionstring = configuration.GetConnectionString("defaultConnectionString");
+            SqlConnection connection = new SqlConnection(connectionstring);
+
+            connection.Open();
+            connection.Execute("INSERT INTO [TimeStamp] ([Name], [CheckinTime], [CheckoutTime], [Remark], [LastModifyDate]) VALUES (@Name, @CheckinTime, @CheckoutTime, @Remark, getdate())",
+                new
+                {
+                    Name = timestamp.Name,
+                    CheckinTime = timestamp.CheckinTime.AddHours(+7).ToString("yyyy’-‘MM’-‘dd’T’HH’:’mm’:’ss"),
+                    CheckoutTime = timestamp.CheckoutTime.AddHours(+7).ToString("yyyy’-‘MM’-‘dd’T’HH’:’mm’:’ss"),
+                    Remark = timestamp.Remark,
+                    LastModifyDate = timestamp.LastModifyDate.AddHours(+7)
+                });
+
+            //SqlCommand insertCmd = new SqlCommand("INSERT INTO Intern(Name, University_Code, LastModifyDate) VALUES(@Name, @University_Code, getdate())");
+            //insertCmd.Connection = connection;
+            //insertCmd.Parameters.AddWithValue("@Name", intern_list.Name);
+            //insertCmd.Parameters.AddWithValue("@University_Code", intern_list.University_Code);
+            //insertCmd.ExecuteNonQuery();
+
+            listTimeStamp = connection.Query<TimeStamp>("SELECT [Name], [CheckinTime], [CheckoutTime], [Remark] FROM [TimeStamp] ORDER BY [LastModifyDate] ASC").ToList();
+
+            //SqlCommand queryCmd = new SqlCommand("SELECT TOP (1000) [Name],[University_Code] FROM [Intern] ORDER BY [LastModifyDate] ASC", connection);
+            //dr = queryCmd.ExecuteReader();
+
+            //while (dr.Read())
+            //{
+            //    listIntern.Add(new Intern() { Name = dr.GetString(0), University_Code = dr.GetString(1) });
+            //}
+
+            connection.Close();
+
+            return View(listTimeStamp);
+        }
     }
 }

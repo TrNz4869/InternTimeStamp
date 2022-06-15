@@ -27,7 +27,7 @@
                             <label class="mt-4 mb-2" for="code">Code*</label>
                             <input type="text" id="addCode" name="Code" class="form-control mb-3" placeholder="Enter University Code" required>
                             <label class="mt-4 mb-2" for="university">University*</label>
-                            <input type="text" id="addUniversity" class="form-control" name="UniversityName" placeholder="Enter University Name"  required>
+                            <input type="text" id="addUniversity" class="form-control" name="UniversityName" placeholder="Enter University Name" required>
                             <div class="modal-footer mt-4">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <input type="submit" value="Submit" class="btn btn-primary">
@@ -152,12 +152,10 @@
     var editData = ''
 
     function setEdit(data) {
-        debugger;
         $.ajax({
             type: 'GET',
             url: 'Universities/get/' + data,
             success: function(data) {
-                console.log(data)
                 $('#editCode').val(data.code);
                 $('#editUniversity').val(data.universityName);
             },
@@ -169,31 +167,31 @@
     }
 
     function editClick() {
-        console.log("click1");
-        var code = $('#editCode').val();
-        var universities = $('#editUniversity').val();
+        debugger;
+        var Code = $('#editCode').val();
+        var UniversityName = $('#editUniversity').val();
         var editObject = {
-            code: code,
-            universityName: universityName
+            Code: Code,
+            UniversityName: UniversityName
         };
-        console.log("click2");
-        $.post('universities/Edit',
-            editObject,
-            function(data, status) {
-                alert(data);
-            });
-
-        //$.ajax({
-        //type: 'post',
-        //url: 'university/edit,
-
-        //success: function (data) {
-        //    location.reload(true);
-        //},
-        //error: function (error) {
-        //    alert("error: " + error);
-        //}
-
+        //$.post('universities/Edit',
+        //    editObject,
+        //    function(data, status) {
+        //        alert(data);
+        //    });
+        debugger;
+        $.ajax({
+            type: 'post',
+            url: 'universities/Edit' + editData,
+            data: editObject,
+            success: function(data) {
+                location.reload(true);
+            },
+            error: function(error) {
+                alert("error: " + error);
+            }
+        })
+        debugger;
     }
 
     if (window.history.replaceState) {

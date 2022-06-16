@@ -65,8 +65,8 @@ namespace InternTimeStamp.Controllers
                 new
                 {
                     Name = timestamp.Name,
-                    CheckinTime = timestamp.CheckinTime.AddHours(+7).ToString("yyyy’-‘MM’-‘dd’T’HH’:’mm’:’ss"),
-                    CheckoutTime = timestamp.CheckoutTime.AddHours(+7).ToString("yyyy’-‘MM’-‘dd’T’HH’:’mm’:’ss"),
+                    CheckinTime = timestamp.CheckinTime.AddHours(+7).ToString("yyyy-MM-ddTHH:mm:ss"),
+                    CheckoutTime = timestamp.CheckoutTime.AddHours(+7).ToString("yyyy-MM-ddTHH:mm:ss"),
                     Remark = timestamp.Remark,
                     LastModifyDate = timestamp.LastModifyDate.AddHours(+7)
                 });

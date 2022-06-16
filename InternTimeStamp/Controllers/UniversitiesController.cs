@@ -38,8 +38,10 @@ namespace InternTimeStamp.Controllers
             List<University>? listUniversity = new List<University>();
             string connectionstring = configuration.GetConnectionString("defaultConnectionString");
             SqlConnection connection = new SqlConnection(connectionstring);
+            bool bIfExist = false;
 
             connection.Open();
+
             connection.Execute("INSERT INTO University([Code], [UniversityName], [LastModifyDate]) VALUES(@Code, @UniversityName, getdate())",
                 new
                 {

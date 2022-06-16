@@ -68,7 +68,7 @@ namespace InternTimeStamp.Controllers
                 {
                     Name = intern_student.Name,
                     University_code = intern_student.University,
-                    LastModifyDate = intern_student.LastModifyDate
+                    LastModifyDate = intern_student.LastModifyDate.AddHours(+7)
                 });
 
             //SqlCommand insertCmd = new SqlCommand("INSERT INTO Intern(Name, University_Code, LastModifyDate) VALUES(@Name, @University_Code, getdate())");
@@ -77,7 +77,7 @@ namespace InternTimeStamp.Controllers
             //insertCmd.Parameters.AddWithValue("@University_Code", intern_list.University_Code);
             //insertCmd.ExecuteNonQuery();
 
-            listInternStudent = connection.Query<InternStudent>("SELECT TOP (1000) [Name],[University_code] FROM [Intern] ORDER BY [LastModifyDate] ASC").ToList();
+            listInternStudent = connection.Query<InternStudent>("SELECT [Name],[University_code] FROM [Intern] ORDER BY [LastModifyDate] ASC").ToList();
 
             //SqlCommand queryCmd = new SqlCommand("SELECT TOP (1000) [Name],[University_Code] FROM [Intern] ORDER BY [LastModifyDate] ASC", connection);
             //dr = queryCmd.ExecuteReader();
@@ -128,22 +128,19 @@ namespace InternTimeStamp.Controllers
             SqlConnection connection = new SqlConnection(connectionstring);
 
             connection.Open();
-            connection.Execute("DELETE FROM [University] WHERE Name=@Name",
+            connection.Execute("DELETE FROM [Intern] WHERE Name=@Name",
                 new
                 {
                     name = name
                 });
 
-            //sqlcommand delcommand = new sqlcommand("delete from [intern] where name=@name", connection);
-            //delcommand.connection = connection;
-            //delcommand.parameters.addwithvalue("@name", name);
-            //delcommand.executenonquery();
             connection.Close();
             return Ok("successfully deleted!");
         }
 
         // edit
         [HttpPost]
+        [Route("InternStudents/Edit/{name}")]
         public ActionResult Edit(InternStudent intern_student)
         {
             string connectionstring = configuration.GetConnectionString("defaultConnectionString");

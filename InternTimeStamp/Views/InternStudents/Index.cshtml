@@ -25,9 +25,9 @@
                     <div class='col-sm-12'>
                         <form action="InternStudents" method="post">
                             <label class="mt-4 mb-2" for="code">Name*</label>
-                            <input type="text" name="Name" class="form-control" placeholder="Enter Student Name" required>
+                            <input type="text" name="Name" id="addName" class="form-control" placeholder="Enter Student Name" required>
                             <label class="mt-4 mb-2" for="University_Code">University*</label>
-                            <select class="form-select" id="universFrom" required>
+                            <select class="form-select" id="addUni" name="University" required>
                                 @if (Model.UniversityLists.Count == 0)
                                 {
                                     <option>No Data, Please add university in Universities page</option>
@@ -36,7 +36,7 @@
                                 {
                                     @foreach (var item in Model.UniversityLists)
                                     {
-                                        <option value="@item.Code">@item.UniversityName</option>
+                                        <option value="@item.UniversityName">@item.UniversityName</option>
                                     }
                                 }
                             </select>
@@ -65,9 +65,9 @@
                     <div class='col-sm-12'>
                         <form action="InternStudents" method="post">
                             <label class="mt-4 mb-2" for="Name">Name*</label>
-                            <input type="text" name="Name" class="form-control" placeholder="Enter Student name" required>
+                            <input type="text" id="editName" name="Name" class="form-control" placeholder="Enter Student name" required>
                             <label class="mt-4 mb-2" for="University_Code">University*</label>
-                            <select class="form-select" id="universFrom" required>
+                            <select class="form-select" id="editUni" name="University" required>
                                 @if (Model.UniversityLists.Count == 0)
                                 {
                                     <option>No Data, Please add university in Universities page</option>
@@ -76,7 +76,7 @@
                                 {
                                     @foreach (var item in Model.UniversityLists)
                                     {
-                                        <option value="@item.Code">@item.UniversityName</option>
+                                        <option value="@item.UniversityName">@item.UniversityName</option>
                                     }
                                 }
                             </select>
@@ -115,46 +115,45 @@
 @{
     if (Model.InternStudentLists.Count() == 0)
     {
-        <h3 class="text-danger text-center mt-4">-No data-</h3>
+    <h3 class="text-danger text-center mt-4">-No data-</h3>
     }
     else
     {
-        <table class="table table-striped table-info mt-4">
-            <tr>
-                @{
+    <table class="table table-striped table-info mt-4">
+                    <tr>
+                        @{
                     foreach (var head in TableHeaders)
                     {
-                        <th class="text-center">
-                            @head
-                        </th>
+                                        <th class="text-center">
+                                            @head
+                                        </th>
                     }
-                }
-            </tr>
-            @{
+                        }
+                    </tr>
+                    @{
                 if (Model != null)
                 {
                     int i = 1;
                     foreach (var Data in Model.InternStudentLists)
                     {
-                        <tr>
-                            <td class="text-center">@i</td>
-                            <td>@Data.Name</td>
-                            <td>@Data.University</td>
-                            <td class="text-center">
-                                <button type="button" name="edit" id="editButton" class="btn btn-danger" id="btndelete" onclick="setDelete('@Data.Name')" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
-                            </td>
-                        </tr>
+                                        <tr>
+                                            <td class="text-center">@i</td>
+                                            <td>@Data.Name</td>
+                                            <td>@Data.University</td>
+                                            <td class="text-center">
+                                                <button type="button" name="edit" id="editButton" class="btn btn-danger" id="btndelete" onclick="setDelete('@Data.Name')" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" onclick="setEdit('@Data.Name')" data-bs-target="#editModal">Edit</button>
+                                            </td>
+                                        </tr>
                         i++;
                     }
                 }
-            }
-        </table>
+                    }
+    </table>
     }
 }
 
 <script type="text/javascript">
-
     var deleteData = ''
 
     function setDelete(data) {
@@ -170,57 +169,76 @@
                 location.reload(true);
             },
             error: function(error) {
-                alert("Error: " + error);
+                alert("Failed! Please try again.");
             }
         })
     }
 
-    //var editData = ''
+    function addIntern() {
+    debugger;
+    $.ajax({
+        type: "POST",
+        url: "/InternStudents",
+        dataType: "JSON",
+        data: {
+            Name: $('#addName').val(),
+            University: $('#addUni').val(),
+        },
+        success: function (result) {
+            location.reload(true);
+        },
+        error: function () {
+            //alert("Failed! Please try again.");
+            location.reload(true);
+        }
+    });
+    debugger;
+}
 
-    //function setEdit(data) {
-    //    debugger;
-    //    $.ajax({
-    //        type: 'GET',
-    //        url: 'InternStudents/get/' + data,
-    //        success: function(data) {
-    //            console.log(data)
-    //            $('#editCode').val(data.name);
-    //            $('#editUniversity').val(data.universityName);
-    //        },
-    //        error: function(error) {
-    //            alert("Error: " + error);
-    //        }
-    //    })
-    //    editData = data;
-    //}
+    var editData = ''
 
-    //function editClick() {
-    //    console.log("click1");
-    //    var code = $('#editCode').val();
-    //    var universities = $('#editUniversity').val();
-    //    var editObject = {
-    //        code: code,
-    //        universityName: universityName
-    //    };
-    //    console.log("click2");
-    //    $.post('universities/Edit',
-    //        editObject,
-    //        function(data, status) {
-    //            alert(data);
-    //        });
+    function setEdit(data) {
+        $.ajax({
+            type: 'GET',
+            url: 'InternStudents/get/' + data,
+            success: function(data) {
+                $('#editName').val(data.Name);
+                $('#editUni').val(data.University);
+            },
+            error: function(error) {
+                alert("Failed! Please try again.");
+            }
+        })
+        editData = data;
+    }
 
-        //$.ajax({
-        //type: 'post',
-        //url: 'university/edit,
-
-        //success: function (data) {
-        //    location.reload(true);
-        //},
-        //error: function (error) {
-        //    alert("error: " + error);
-        //}
-
-    //}
+    function editClick() {
+        debugger;
+        var Name = $('#editName').val();
+        var University = $('#editUni').val();
+        var editObject = {
+            Name: Name,
+            University: University
+        };
+        //$.post('universities/Edit',
+        //    editObject,
+        //    function(data, status) {
+        //        alert(data);
+        //    });
+        debugger;
+        $.ajax({
+            type: 'post',
+            url: 'InternStudents/Edit' + editData,
+            data: editObject,
+            success: function(data) {
+                location.reload(true);
+            },
+            error: function(error) {
+                alert("Failed! Please try again.");
+            }
+        })
+        debugger;
+    }
 
     if (window.history.replaceState) {
         window.history.replaceState(null, null, window.location.href);

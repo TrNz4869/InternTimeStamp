@@ -26,16 +26,9 @@
                         <form action="Timestamps" method="post">
                             <label class="mt-4 mb-2" for="University_Code">Name*</label>
                             <select class="form-select" id="addStd" name="Name" required>
-                                @if (Model.StudentLists.Count() == 0)
+                                @foreach (var item in Model.StudentLists)
                                 {
-                                    <option>No Data, Please add student in Internship Students page</option>
-                                }
-                                else
-                                {
-                                    @foreach (var item in Model.StudentLists)
-                                    {
-                                        <option value="@item.Name">@item.Name</option>
-                                    }
+                                    <option value="@item.Name">@item.Name</option>
                                 }
                             </select>
                             <label class="mt-4 mb-2" for="code">Check-in Time*</label>
@@ -62,39 +55,39 @@
 @{
     if (Model.TimeStampLists.Count() == 0)
     {
-    <h3 class="text-danger text-center mt-4">-No data-</h3>
+        <h3 class="text-danger text-center mt-4">-No data-</h3>
     }
     else
     {
-    <table class="table table-striped table-info mt-4">
-                    <tr>
-                        @{
+        <table class="table table-striped table-info mt-4">
+            <tr>
+                @{
                     foreach (var head in TableHeaders)
                     {
-                                        <th class="text-center">
-                                            @head
-                                        </th>
+                        <th class="text-center">
+                            @head
+                        </th>
                     }
-                        }
-                    </tr>
-                    @{
+                }
+            </tr>
+            @{
                 if (Model != null)
                 {
                     int i = 1;
                     foreach (var Data in Model.TimeStampLists)
                     {
-                                        <tr>
-                                            <td class="text-center">@i</td>
-                                            <td class="text-center">@Data.Name</td>
-                                            <td class="text-center">@Data.CheckinTime</td>
-                                            <td class="text-center">@Data.CheckoutTime</td>
-                                            <td class="text-center">@Data.Remark</td>
-                                        </tr>
+                        <tr>
+                            <td class="text-center">@i</td>
+                            <td class="text-center">@Data.Name</td>
+                            <td class="text-center">@Data.CheckinTime</td>
+                            <td class="text-center">@Data.CheckoutTime</td>
+                            <td class="text-center">@Data.Remark</td>
+                        </tr>
                         i++;
                     }
                 }
-                    }
-    </table>
+            }
+        </table>
     }
 }
 
@@ -128,7 +121,8 @@
                 location.reload(true);
             },
             error: function() {
-                alert("Failed! Please try again.");
+                //alert("Failed! Please try again.");
+                location.reload(true);
             }
         });
     }
